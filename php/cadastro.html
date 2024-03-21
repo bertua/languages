@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+</head>
+<body>
+    <h1>Cadastro</h1>
+    <form action="cadastro.php" method="POST">
+
+        <label for="nome">Nome:</label>
+        <input type="text" name="nome" id="nome" required>
+
+        <label for="email">E-mail:</label>
+        <input type="email" name="email" id="email" required>
+        <br>
+
+        <label for="celular">Celular com DDD:</label>
+        <input type="tel" name="celular" id="celular" required>
+
+        <label for="hora">Hora desejada:</label>
+        <input type="time" name="hora" id="hora" required>
+        <br>
+
+        <label for="site">Seu site:</label>
+        <input type="text" name="site" id="site" required>
+
+        <label for="senha">Senha:</label>
+        <input type="text" name="senha" id="senha" required>
+        <br>
+
+        <label for="data">Data Nasc:</label>
+        <input type="date" name="data" id="data" required>
+
+        <label for="cor">Cor favorita:</label>
+        <input type="color" name="cor" id="cor" required>
+        <br>
+
+        <label for="filhos">Qtd Filhos:</label>
+        <input type="text" name="filhos" id="filhos" required>
+
+        <label for="peso">Peso 0</label>
+        <input type="range" min="0" max="200" value="100" name="peso" id="peso" required>
+        <label for="peso">200</label>
+        <br><br>
+
+        <label for="sexo">Sexo:</label> <br><br>
+        <input type="radio" name="sexo" id="sexo" value="homem" required> homem <br>
+        <input type="radio" name="sexo" id="sexo" value="mulher" required> mulher <br>
+
+        <label for="estado">Estado:</label>
+        <select name="estado" id="estado">
+            <option value="RS">RS</option>
+            <option value="SC">SC</option>
+            <option value="PR">PR</option>
+        </select>
+        <br>
+
+        <label for="mensagem">Mensagem:</label> <br>
+        <textarea name="mensagem" rows="4" cols="50"></textarea> <br>
+
+        <input type="reset" value="Reset">
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>

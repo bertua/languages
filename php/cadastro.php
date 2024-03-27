@@ -14,7 +14,7 @@
     $hora = $_POST['hora'];
     $site = $_POST['site'];
     $senha = $_POST['senha'];
-    $dataN = $_POST['data'];
+    $data = $_POST['data'];
     $cor = $_POST['cor'];
     $filhos = $_POST['filhos'];
     $peso = $_POST['peso'];
@@ -24,30 +24,30 @@
     ?>
 
 
-    <label for="nome">Nome:</label> <?php echo $nome; ?>
+    <label for="nome">Nome:</label> <?php echo $nome; ?> <br>
 
-    <label for="email">E-mail:</label> <?php echo $email; ?>
+    <label for="email">E-mail:</label> <?php echo $email; ?> <br>
 
-    <label for="celular">Celular com DDD:</label> <?php echo $celular; ?>
+    <label for="celular">Celular com DDD:</label> <?php echo $celular; ?> <br>
 
-    <label for="hora">Hora desejada:</label> <?php echo $hora; ?>
+    <label for="hora">Hora desejada:</label> <?php echo $hora; ?> <br>
 
-    <label for="site">Seu site:</label> <?php echo $site; ?>
+    <label for="site">Seu site:</label> <?php echo $site; ?> <br>
 
     <label for="senha">Senha:</label>
 
-    <label for="data">Data Nasc:</label> <?php echo $data; ?>
+    <label for="data">Data Nasc:</label> <?php echo $data; ?> <br>
 
-    <label for="cor">Cor favorita:</label> <?php echo $cor; ?>
+    <label for="cor">Cor favorita:</label> <?php echo $cor; ?> <br>
 
-    <label for="filhos">Qtd Filhos:</label> <?php echo $filhos; ?>
+    <label for="filhos">Qtd Filhos:</label> <?php echo $filhos; ?> <br>
 
-    <label for="peso">Peso:</label> <?php echo $peso; ?>
+    <label for="peso">Peso:</label> <?php echo $peso; ?> <br>
 
-    <label for="sexo">Sexo:</label> <?php echo $sexo; ?>
+    <label for="sexo">Sexo:</label> <?php echo $sexo; ?> <br>
 
-    <label for="estado">Estado:</label> <?php echo $estado; ?>
+    <label for="estado">Estado:</label> <?php echo $estado; ?> <br>
 
-    <label for="mensagem">Mensagem:</label> <?php echo $mensagem; ?>
+    <label for="mensagem">Mensagem:</label> <?php echo $mensagem; ?> <br>
 </body>
 </html>

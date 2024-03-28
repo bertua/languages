@@ -131,23 +131,20 @@ class Pessoa {
         return $this->mensagem;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function falar(){
-        $nomedaPessoa = $this->nome;
-        return "Oi, eu sou o " . $nomedaPessoa . "!";
+    public function mostrarDados() {
+        echo "Nome: " . $this->getNome() . "<br>" . 
+        "Email: " . $this->getEmail() . "<br>" .
+        "Celular: " . $this->getCelular() . "<br>" .
+        "Hora: " . $this->getHora() . "<br>" .
+        "Site: " . $this->getSite() . "<br>" .
+        "Senha: " . $this->getSenha() . "<br>" .
+        "Data Nascimento: " . $this->getData() . "<br>" .
+        "Cor: " . $this->getCor() . "<br>" .
+        "Filhos: " . $this->getFilhos() . "<br>" .
+        "Peso: " . $this->getPeso() . "<br>" .
+        "Sexo: " . $this->getSexo() . "<br>" .
+        "Estado: " . $this->getEstado() . "<br>" .
+        "Mensagem: " . $this->getMensagem() . "<br>";
     }
 }
 

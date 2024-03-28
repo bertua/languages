@@ -40,7 +40,10 @@
     $p->setSexo($sexo);
     $p->setEstado($estado);
     $p->setMensagem($mensagem);
+
+    $p->mostrarDados();
     ?>
+
     
 </body>
 

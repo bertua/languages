@@ -24,10 +24,10 @@
         <br>
 
         <label for="site">Seu site:</label>
-        <input type="text" name="site" id="site" required>
+        <input type="url" name="site" id="site" required>
 
         <label for="senha">Senha:</label>
-        <input type="text" name="senha" id="senha" required>
+        <input type="password" name="senha" id="senha" required>
         <br>
 
         <label for="data">Data Nasc:</label>
@@ -46,9 +46,11 @@
         <span>200</span>
         <br><br>
 
-        <label for="sexo">Sexo:</label> <br><br>
-        <input type="radio" name="sexo" id="sexo" value="homem" required> homem <br>
-        <input type="radio" name="sexo" id="sexo" value="mulher" required> mulher <br>
+        <p>Sexo:</p> <br><br>
+        <input type="radio" name="sexo" id="homem" value="homem" required> <br>
+        <label for="homem">homem</label>
+        <input type="radio" name="sexo" id="mulher" value="mulher" required> <br>
+        <label for="mulher">mulher</label>
 
         <label for="estado">Estado:</label>
         <select name="estado" id="estado">

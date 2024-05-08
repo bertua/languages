@@ -24,11 +24,11 @@
                 foreach($pessoas as $pessoa) {
             ?>
             <tr>
-                <td><a href="atualizar.php"><?php echo $pessoa['id_pessoa'] ?></a></td>
-                <td><?php echo $pessoa['nome']?></td>
-                <td><?php echo $pessoa["email"]?></td>
-                <td><?php echo $pessoa["idade"]?></td>
-                <td><a href="apagar.php">Apagar</a></td>
+                <td><a href="atualizar.php?id=<?= $pessoa['id_pessoa']; ?>"><?= $pessoa['id_pessoa']?></a></td>
+                <td><?= $pessoa['nome']?></td>
+                <td><?= $pessoa["email"]?></td>
+                <td><?= $pessoa["idade"]?></td>
+                <td><a href="apagar.php?id=<?= $pessoa['id_pessoa']?>">Apagar</a></td>
             </tr>
             <?php } ?>
         </tbody>    

@@ -90,7 +90,7 @@ class Pessoas_banco {
     public function alterar(){
         $database = new Conexao();
         $db = $database->getConnection();
-        $sql = "UPDATE pessoa SET nome=:nome, email=:email, idade=:idade, WHERE id_pessoa=:id_pessoa";
+        $sql = "UPDATE pessoa SET nome=:nome, email=:email, idade=:idade WHERE id_pessoa=:id_pessoa";
         try{
             $stmt = $db->prepare($sql);
             $stmt->bindParam(':id_pessoa',$this->id_pessoa);
@@ -102,6 +102,21 @@ class Pessoas_banco {
         } catch(PDOException $e){
             echo 'Erro ao alterar pessoa'. $e->getMessage();
             return false;
+        }
+    }
+
+    public function selectPessoa($id){
+        $database = new Conexao();
+        $db = $database->getConnection();
+        $sql = "Select * from pessoa WHERE id_pessoa='$id'";
+        try{
+            $stmt= $db->query($sql);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        }catch(PDOException $e){
+            echo 'Erro ao listar pessoas: ' . $e->getMessage();
+            $result = [];
+            return $result;
         }
     }
 

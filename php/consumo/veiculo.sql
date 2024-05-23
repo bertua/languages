@@ -24,49 +24,47 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `abastecimento`
+-- Estrutura para tabela `veiculo`
 --
 
-CREATE TABLE `abastecimento` (
-  `id_abastecimento` int(11) NOT NULL,
-  `data` date DEFAULT NULL,
-  `kmHodometro` double DEFAULT NULL,
-  `litros` double DEFAULT NULL,
-  `valorGasto` double DEFAULT NULL,
-  `tanqueCompleto` varchar(100) DEFAULT NULL,
-  `id_veiculo` int(11) DEFAULT NULL
+CREATE TABLE `veiculo` (
+  `id_veiculo` int(11) NOT NULL,
+  `marca` varchar(100) DEFAULT NULL,
+  `modelo` varchar(100) DEFAULT NULL,
+  `ano` varchar(50) DEFAULT NULL,
+  `placa` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `veiculo`
+--
+
+INSERT INTO `veiculo` (`id_veiculo`, `marca`, `modelo`, `ano`, `placa`) VALUES
+(1, 'Toyota', 'Corolla', '2020', 'ABC-1234'),
+(2, 'Honda', 'Civic', '2019', 'DEF-5678'),
+(3, 'Ford', 'Focus', '2018', 'GHI-9012'),
+(4, 'Chevrolet', 'Cruze', '2021', 'JKL-3456'),
+(5, 'Volkswagen', 'Jetta', '2022', 'MNO-6789');
 
 --
 -- Índices para tabelas despejadas
 --
 
 --
--- Índices de tabela `abastecimento`
+-- Índices de tabela `veiculo`
 --
-ALTER TABLE `abastecimento`
-  ADD PRIMARY KEY (`id_abastecimento`),
-  ADD KEY `id_veiculo` (`id_veiculo`);
+ALTER TABLE `veiculo`
+  ADD PRIMARY KEY (`id_veiculo`);
 
 --
 -- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
--- AUTO_INCREMENT de tabela `abastecimento`
+-- AUTO_INCREMENT de tabela `veiculo`
 --
-ALTER TABLE `abastecimento`
-  MODIFY `id_abastecimento` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Restrições para tabelas despejadas
---
-
---
--- Restrições para tabelas `abastecimento`
---
-ALTER TABLE `abastecimento`
-  ADD CONSTRAINT `abastecimento_ibfk_1` FOREIGN KEY (`id_veiculo`) REFERENCES `veiculo` (`id_veiculo`);
+ALTER TABLE `veiculo`
+  MODIFY `id_veiculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

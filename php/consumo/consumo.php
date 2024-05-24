@@ -38,8 +38,8 @@
         <br>
 
         <select name="tanque" id="tanque">
-            <option value="cheio"></option>
-            <option value=""></option>
+            <option value="cheio">cheio</option>
+            <option value="incompleto">incompleto</option>
         </select>
         <br>
 

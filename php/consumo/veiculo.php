@@ -28,7 +28,7 @@ class veiculo {
     }
 
     public function setModelo($modelo){
-        $this->Modelo = $modelo;
+        $this->modelo = $modelo;
     }
 
     public function getAno(){
@@ -56,9 +56,27 @@ class veiculo {
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         }catch(PDOException $e){
-            echo 'Erro ao listar veiculos: ' . $e->getMessage();
+            echo 'Erro ao listar veiculo: ' . $e->getMessage();
             $result = [];
             return $result;
+        }
+    }
+
+    public function inserirVeiculo(){
+        $database = new Conexao();
+        $db = $database->getConnection();
+        $sql = 'insert into veiculo (marca, modelo, placa, ano) values (:marca, :modelo, :placa, :ano)';
+        try{
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam(':marca',$this->marca);
+            $stmt->bindParam(':modelo',$this->modelo);
+            $stmt->bindParam(':placa',$this->placa);
+            $stmt->bindParam(':ano',$this->ano);
+            $stmt->execute();
+            return true;
+        } catch(PDOException $e){
+            echo 'Erro ao inserir veiculo'. $e->getMessage();
+            return false;
         }
     }
 

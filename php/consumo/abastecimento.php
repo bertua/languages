@@ -89,14 +89,31 @@ class abastecimento {
             $stmt->bindParam(':data',$this->data);
             $stmt->bindParam(':kmHodometro',$this->kmHodometro);
             $stmt->bindParam(':litros',$this->litros);
-            $stmt->bindParam(':litros',$this->valorGasto);
-            $stmt->bindParam(':litros',$this->tanqueCompleto);
-            $stmt->bindParam(':litros',$this->id_veiculo);
+            $stmt->bindParam(':valorGasto',$this->valorGasto);
+            $stmt->bindParam(':tanqueCompleto',$this->tanqueCompleto);
+            $stmt->bindParam(':id_veiculo',$this->id_veiculo);
             $stmt->execute();
             return true;
         } catch(PDOException $e){
-            echo 'Erro ao inserir pessoa'. $e->getMessage();
+            echo 'Erro ao inserir abastecimento'. $e->getMessage();
             return false;
+        }
+    }
+
+    public function selectConsumo($id_veiculo, $tanqueCompleto){
+        $database = new Conexao();
+        $db = $database->getConnection();
+        $sql = "SELECT * FROM abastecimento WHERE id_veiculo=:id_veiculo AND tanqueCompleto=:tanqueCompleto order by id_abastecimento desc limit 2";
+        try{
+            $stmt= $db->prepare($sql);
+            $stmt->bindParam(':id_veiculo', $id_veiculo);
+            $stmt->bindParam(':tanqueCompleto', $tanqueCompleto);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e){
+            echo 'Erro ao listar veiculos: ' . $e->getMessage();
+            $result = [];
+            return $result;
         }
     }
 

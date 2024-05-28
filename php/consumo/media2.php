@@ -12,8 +12,13 @@
     
     $a = new abastecimento;
     $abastecimento= $a->selectConsumo($id_veiculo, "cheio");
-    foreach($abastecimento as $a){
-
+    if(count($abastecimento) != 2){
+        echo "Ainda nao é possivel calcular a media para esse veiculo";
+    }
+    else{
+        $kmRodado = $abastecimento[0]['kmHodometro'] - $abastecimento[1]['kmHodometro'];
+        $media = $kmRodado/$abastecimento[0]['litros'];
+        echo $media;
     }
     ?>
 </body>

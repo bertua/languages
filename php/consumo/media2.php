@@ -7,19 +7,45 @@
 </head>
 <body>
     <?php
-    include "abastecimento.php";
-    $id_veiculo=$_POST['carro'];
+    include "abastecimento.class.php";
+    $id_veiculo = $_POST['carro'];
     
-    $a = new abastecimento;
-    $abastecimento= $a->selectConsumo($id_veiculo, "cheio");
-    if(count($abastecimento) != 2){
-        echo "Ainda nao é possivel calcular a media para esse veiculo";
+    $ab = new abastecimento();
+    $abastecimento = $ab->selectAbastecimento($id_veiculo);
+    $count = 0;
+   
+    
+    print_r($abastecimento);
+    foreach($abastecimento as $a){
+        echo "Data: " . $a['data'] . " / " .
+        "Km hodometro: " . $a['kmHodometro'] . " / " .
+        "Litros: " . $a['litros'] . " / " .
+        "Valor gasto: " . $a['valorGasto'] . " / " .
+        "Tanque completo: " . $a['tanqueCompleto'] . "<br>";
+        if($a['tanqueCompleto'] == "cheio"){
+            $count++;
+            $maisDeDois = false;
+            if($count > 2){
+                $ph = $fh;
+            }
+            else if($count == 1){
+                $ph = $a['kmHodometro'];
+            } 
+            else if ($count == 2){
+                $fh = $a['kmHodometro'];
+                $fl = $a['litros'];
+            }
+        } else {
+            $count = 0;
+        }
+
+        if($count == 2){
+            $media = ($fh-$ph)/$fl;
+            echo $media;
+        }
     }
-    else{
-        $kmRodado = $abastecimento[0]['kmHodometro'] - $abastecimento[1]['kmHodometro'];
-        $media = $kmRodado/$abastecimento[0]['litros'];
-        echo $media;
-    }
+
+
     ?>
 </body>
 </html>

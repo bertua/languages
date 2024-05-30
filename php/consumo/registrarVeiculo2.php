@@ -7,7 +7,7 @@
 </head>
 <body>
     <?php
-    include "veiculo.php";
+    include "veiculo.class.php";
 
     $marca = $_POST['marca'];
     $modelo= $_POST['modelo'];
@@ -23,6 +23,8 @@
 
     $v->inserirVeiculo();
     ?>
-    <a href="consumo.php">consumo</a>
+    <a href="registrarVeiculo.php">novo veiculo</a>
+    <br>
+    <a href="abastecimento.php">abastecimento</a>
 </body>
 </html>

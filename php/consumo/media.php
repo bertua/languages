@@ -11,7 +11,7 @@
     <select name="carro" id="carro">
     <?php
     
-    include "veiculo.php";
+    include "veiculo.class.php";
     $v = new veiculo;
     $veiculo = $v->listarVeiculo();
 
@@ -19,9 +19,10 @@
     ?>  
         <option value="<?= $v['id_veiculo'] ?>"><?= $v['placa'] ?></option>
     <?php }?>
+
     </select>
     <br>
-    <input type="submit" value="calcular media">
+    <input type="submit" value="media">
     </form>
 </body>
 </html>

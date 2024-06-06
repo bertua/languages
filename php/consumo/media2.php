@@ -13,9 +13,10 @@
     $ab = new abastecimento();
     $abastecimento = $ab->selectAbastecimento($id_veiculo);
     $count = 0;
+    $ph;
+    $fh;
+    $fl;
    
-    
-    print_r($abastecimento);
     foreach($abastecimento as $a){
         echo "Data: " . $a['data'] . " / " .
         "Km hodometro: " . $a['kmHodometro'] . " / " .
@@ -24,9 +25,10 @@
         "Tanque completo: " . $a['tanqueCompleto'] . "<br>";
         if($a['tanqueCompleto'] == "cheio"){
             $count++;
-            $maisDeDois = false;
             if($count > 2){
                 $ph = $fh;
+                $fh = $a['kmHodometro'];
+                $fl = $a['litros'];
             }
             else if($count == 1){
                 $ph = $a['kmHodometro'];
@@ -39,9 +41,9 @@
             $count = 0;
         }
 
-        if($count == 2){
+        if($count >= 2){
             $media = ($fh-$ph)/$fl;
-            echo $media;
+            echo "Media: $media";
         }
     }
 

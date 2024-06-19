@@ -36,7 +36,9 @@ public class E10 {
             }
         }
 
-        System.out.println("Total sim: ");
-        System.out.println("Total não: ");
+        System.out.println("Total sim: " + s);
+        System.out.println("Total não: " + n);
+        System.out.println("Feminino sim: " + fs);
+        System.out.println("Masculino não: " + mn);
     }
 }

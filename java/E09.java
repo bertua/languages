@@ -22,13 +22,18 @@ public class E09 {
         int vivo = input.nextInt();
         input.nextLine();
 
+        double desconto = 0;
+        double acrescimo = 0;
+
         if (dia != 4 && dia !=6) {
-            entrada -= entrada * 0.25;
+            desconto = entrada * 0.25;
         }
 
         if (vivo == 1) {
-            entrada += entrada * 0.15;
+            acrescimo = entrada * 0.15;
         }
+
+        entrada = entrada - desconto + acrescimo;
 
         System.out.println("Valor entrada: " + entrada);
     }

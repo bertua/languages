@@ -50,6 +50,10 @@ public class NewJFrame2 extends javax.swing.JFrame {
         rbGrande = new javax.swing.JRadioButton();
         rbMedia = new javax.swing.JRadioButton();
         rbGigante = new javax.swing.JRadioButton();
+        jLabel2 = new javax.swing.JLabel();
+        tfBairro = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Pizzaria");
@@ -64,8 +68,12 @@ public class NewJFrame2 extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Sabor:");
 
-        cbSabor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bacon", "Frango", "milho", "4 queijos", "brócolis", "portuguesa" }));
         cbSabor.setSelectedItem(null);
+        cbSabor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSaborActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Enviar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -142,6 +150,13 @@ public class NewJFrame2 extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Bairro:");
+
+        jButton3.setText("Registrar sabor");
+
+        jButton4.setText("Registrar Tamanho");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -154,11 +169,13 @@ public class NewJFrame2 extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
-                                    .addComponent(jLabel6))
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel2))
                                 .addGap(12, 12, 12)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(tfEndereco)
-                                    .addComponent(tfCliente)))
+                                    .addComponent(tfCliente)
+                                    .addComponent(tfBairro)))
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
@@ -181,7 +198,11 @@ public class NewJFrame2 extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rbMedia)
                             .addComponent(rbGigante))))
-                .addGap(181, 181, 181))
+                .addGap(58, 58, 58)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton4)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(48, 48, 48))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,13 +212,15 @@ public class NewJFrame2 extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(cbSabor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbSabor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(rbPequena)
-                        .addComponent(rbMedia)))
+                        .addComponent(rbMedia)
+                        .addComponent(jButton4)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(rbGrande)
@@ -210,7 +233,11 @@ public class NewJFrame2 extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(tfEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(tfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -238,45 +265,61 @@ public class NewJFrame2 extends javax.swing.JFrame {
         String endereco = tfEndereco.getText();
         String sabor = cbSabor.getSelectedItem().toString();
         String tamanho = rbTamanho.getSelection().getActionCommand();
+        String bairro = tfBairro.getText();
         
-        while(){
-        try{
-            if(cliente.length() == 0){
-                JOptionPane.showMessageDialog(rootPane, "Cliente não preenchido");
-            }
-        }catch(Exception e){}
+        boolean error = false;
         
-        try{
-            if(endereco.length() == 0){
-                JOptionPane.showMessageDialog(rootPane, "Endereço não preenchido");
-            }
-        }catch(Exception e){}
-        
-        try{
-            if(sabor.length() == 0){
-                JOptionPane.showMessageDialog(rootPane, "Sabor não selecionado");
-            }
-        }catch(Exception e){}
-        
-        try{
-            if(tamanho.length() == 0){
-                JOptionPane.showMessageDialog(rootPane, "Tamanho não selecionado");
-            }
-        }catch(Exception e){}
-        
+        if(cliente.length() == 0){
+            JOptionPane.showMessageDialog(rootPane, "Cliente não preenchido");
+            error = true;
         }
-       
+
+        if(endereco.length() == 0){
+            JOptionPane.showMessageDialog(rootPane, "Endereço não preenchido");
+            error = true;
+        }
+
+        if(sabor.length() == 0){
+            JOptionPane.showMessageDialog(rootPane, "Sabor não selecionado");
+            error = true;
+        }
+
+        if(tamanho.length() == 0){
+            JOptionPane.showMessageDialog(rootPane, "Tamanho não selecionado");
+            error = true;
+        }
+        
+        if(bairro.length() == 0){
+            JOptionPane.showMessageDialog(rootPane, "Bairro não preenchido");
+            error = true;
+        }
+
+        if(!error){
+            Pedido pedido = new Pedido();
+            pedido.setCliente(cliente);
+            pedido.setEndereco(endereco);
+            pedido.setTamanho(tamanho);
+            pedido.setSabor(sabor);
+            pedido.setBairro(bairro);
+            int confirmar = JOptionPane.showConfirmDialog(rootPane,
+                    "Cliente: " + cliente +
+                    "\nEndereço: " + endereco +
+                    "\nSabor: " + sabor + 
+                    "\nTamanho: " + tamanho, "Confirmar?", JOptionPane.YES_NO_OPTION);
+            if(confirmar == JOptionPane.YES_OPTION){
+                pedido.Inserir();
+                JOptionPane.showMessageDialog(rootPane, "Pedido realizado");
+                tfCliente.setText("");
+                tfEndereco.setText("");
+                tfBairro.setText("");
+                cbSabor.setSelectedItem(null);
+                rbTamanho.clearSelection();
+            }
+            
+        }
         
         
-        Pedido pedido = new Pedido();
-        pedido.setCliente(cliente);
-        pedido.setEndereco(endereco);
-        pedido.setTamanho(tamanho);
-        pedido.setSabor(sabor);
-        pedido.Inserir();
-        
-        JOptionPane.showMessageDialog(rootPane, "Pedido realizado");
-        
+
         /*try {
             System.out.println(Database.getConnection().getCatalog());
         } catch (SQLException ex) {
@@ -314,6 +357,10 @@ public class NewJFrame2 extends javax.swing.JFrame {
     private void rbMediaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMediaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rbMediaActionPerformed
+
+    private void cbSaborActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSaborActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbSaborActionPerformed
 
     /**
      * @param args the command line arguments
@@ -354,7 +401,10 @@ public class NewJFrame2 extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbSabor;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -365,6 +415,7 @@ public class NewJFrame2 extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbMedia;
     private javax.swing.JRadioButton rbPequena;
     private javax.swing.ButtonGroup rbTamanho;
+    private javax.swing.JTextField tfBairro;
     private javax.swing.JTextField tfCliente;
     private javax.swing.JTextField tfEndereco;
     // End of variables declaration//GEN-END:variables

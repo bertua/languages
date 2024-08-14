@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package pedido;
 
 import java.sql.Connection;
@@ -11,16 +8,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-/**
- *
- * @author Suporte
- */
+
 public class Pedido {
     
-    String sabor;
-    String tamanho;
-    String cliente;
-    String endereco;
+    private String sabor;
+    private String tamanho;
+    private String cliente;
+    private String endereco;
+    private String bairro;
 
     public String getSabor() {
         return sabor;
@@ -33,35 +28,44 @@ public class Pedido {
     public String getTamanho() {
         return tamanho;
     }
+    
+    public void setTamanho(String tamanho) {
+        this.tamanho = tamanho;
+    }
 
     public String getCliente() {
         return cliente;
+    }
+    
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
     }
 
     public String getEndereco() {
         return endereco;
     }
-
-    public void setTamanho(String tamanho) {
-        this.tamanho = tamanho;
-    }
-
-    public void setCliente(String cliente) {
-        this.cliente = cliente;
-    }
-
+    
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+    
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
     }
     
     public void Inserir(){
         Connection conn = Database.getConnection();
         try {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO pedido (cliente, endereco, tamanho, sabor) VALUES (?,?,?,?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO pedido (cliente, endereco, tamanho, sabor, bairro) VALUES (?,?,?,?,?)");
             stmt.setString(1, this.getCliente());
             stmt.setString(2, this.getEndereco());
             stmt.setString(3, this.getTamanho());
             stmt.setString(4, this.getSabor());
+            stmt.setString(5, this.getBairro());
             
             stmt.execute();
         } catch (SQLException ex) {

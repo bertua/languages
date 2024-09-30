@@ -1,4 +1,9 @@
-br\com\projeto\Adicionar.class
-br\com\projeto\Contatos$1.class
-br\com\projeto\Contatos.class
-br\com\projeto\Projeto.class
+projetoContatos\Editar.class
+projetoContatos\Contatos$1.class
+projetoContatos\Contatos.class
+projetoContatos\ContactManager$2.class
+projetoContatos\ContactManager$Contact.class
+projetoContatos\ContactManager.class
+projetoContatos\Projeto.class
+projetoContatos\Adicionar.class
+projetoContatos\ContactManager$1.class

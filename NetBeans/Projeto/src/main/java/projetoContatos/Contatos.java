@@ -26,7 +26,7 @@ public class Contatos extends JFrame{
     private JPanel panel;
     private JComboBox<String> comboBox;
     private ArrayList<Contato> contatos = new ArrayList<>();
-    
+    private ArrayList<String> categorias = new ArrayList<>();
 
     public Contatos(){
         super("Contatos");
@@ -141,9 +141,11 @@ public class Contatos extends JFrame{
         //Filtro
         panel = new JPanel();
         panel.setBounds(250,360,250,50);
-        
-        String[] categorias = {"Todos", "Amigo", "Família", "Trabalho"};
-        comboBox = new JComboBox<>(categorias);
+        categorias.add("Todos");
+        categorias.add("Amigo");
+        categorias.add("Família");
+        categorias.add("Trabalho");
+        comboBox = new JComboBox(categorias.toArray());
         comboBox.addActionListener((ActionEvent e) -> {
             //filtrar();
         });
@@ -163,22 +165,22 @@ public class Contatos extends JFrame{
         setLocationRelativeTo(null);
     }
     
-    private void adicionarContato() {
+    public void adicionarContato() {
         Adicionar adicionar = new Adicionar(this);
         adicionar.setVisible(true);
     }
     
-    private void editarContato() {
+    public void editarContato() {
         Editar editar = new Editar(this);
         editar.setVisible(true);
     }
     
-    private void excluirContato() {
+    public void excluirContato() {
         
         JOptionPane.showConfirmDialog(rootPane, "Deseja excluir esse contato?", "Excluir contato", JOptionPane.YES_NO_CANCEL_OPTION);
     }
     
-    private void salvarContato() {
+    public void salvarContato() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try (FileWriter writer = new FileWriter("contatos.json")) {
             gson.toJson(contatos, writer);
@@ -188,7 +190,7 @@ public class Contatos extends JFrame{
         }
     }
     
-    private void carregarContato() {
+    public void carregarContato() {
 
     }
 }

@@ -49,12 +49,4 @@ public class Contato {
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
-
-    public Contato(String nome, String telefone, String email, String endereco, String categoria) {
-        this.nome = nome;
-        this.telefone = telefone;
-        this.email = email;
-        this.endereco = endereco;
-        this.categoria = categoria;
-    }
 }

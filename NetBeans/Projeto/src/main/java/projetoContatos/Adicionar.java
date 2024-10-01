@@ -1,9 +1,14 @@
 
 package projetoContatos;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 
@@ -15,6 +20,7 @@ public class Adicionar extends JDialog{
     private JFormattedTextField tfTelefone;
     private JButton btSalvar, btCancelar;
     private JComboBox cbCategoria;
+    private ArrayList<String> categorias = new ArrayList<String>();
     
     
     public Adicionar(Contatos contatos){
@@ -49,8 +55,10 @@ public class Adicionar extends JDialog{
         tfTelefone = new JFormattedTextField(mascaraTel);
         tfEmail = new JTextField(100);
         tfEndereco = new JTextField(100);
-        String[] categorias = {"Amigo", "Família", "Trabalho"};
-        cbCategoria = new JComboBox(categorias);
+        categorias.add("Amigo");
+        categorias.add("Família");
+        categorias.add("Trabalho");
+        cbCategoria = new JComboBox(categorias.toArray());
         cbCategoria.setSelectedItem(null);
         tfNome.setBounds(150,20,200,20);
         tfTelefone.setBounds(150,60,200,20);
@@ -88,14 +96,24 @@ public class Adicionar extends JDialog{
                 JOptionPane.showMessageDialog(rootPane, "Escolha a categoria");
             }
             if(error == false){
-                //salvar();
+                Contato contato = new Contato();
+                contato.setNome(tfNome.getText());
+                contato.setTelefone(tfTelefone.getText());
+                contato.setEmail(tfEmail.getText());
+                contato.setEndereco(tfEndereco.getText());
+                contato.setCategoria(cbCategoria.getSelectedItem().toString());
+                salvarContato(contato);
+                tfNome.setText("");
+                tfTelefone.setText("");
+                tfEmail.setText("");
+                tfEndereco.setText("");
+                cbCategoria.setSelectedItem(null);
             }
         });
         
         btCancelar.addActionListener((ActionEvent e) -> {
             this.dispose();
         });
-        
         
         
         
@@ -114,7 +132,17 @@ public class Adicionar extends JDialog{
         add(btSalvar);
         add(btCancelar);
 
-        setSize(400,300); 
+        setSize(400,300);
         setLocationRelativeTo(null);
+    }
+    
+    public void salvarContato(Contato contato) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter("contatos.json")) {
+            gson.toJson(contato, writer);
+            JOptionPane.showMessageDialog(this, "Contato salvo!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

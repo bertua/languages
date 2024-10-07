@@ -1,7 +1,9 @@
-{
-  "nome": "sadgfasd",
-  "telefone": "(56)46954-6546",
-  "email": "dfgfsdgdf@asdf.com",
-  "endereco": "sfghdfghdfgh",
-  "categoria": "Amigo"
-}
+[
+  {
+    "nome": "asdf",
+    "telefone": "(32)13213-2132",
+    "email": "asdf@asdf.com",
+    "endereco": "asdfasdf",
+    "categoria": "amigo"
+  }
+]

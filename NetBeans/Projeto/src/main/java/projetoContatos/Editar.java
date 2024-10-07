@@ -1,10 +1,14 @@
 
 package projetoContatos;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.*;
 import java.text.ParseException;
+import java.util.ArrayList;
 import javax.swing.text.MaskFormatter;
 
 
@@ -15,12 +19,17 @@ public class Editar extends JDialog{
     private JFormattedTextField tfTelefone;
     private JButton btSalvar, btCancelar;
     private JComboBox cbCategoria;
+    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private ArrayList<Contato> contatos = new ArrayList<>();
+    private ArrayList<Categoria> categorias = new ArrayList<>();
+    private String contatosFilePath = "";
     
     
-    public Editar(Contatos contatos){
+    public Editar(Contatos contatos, Contato contatoSelecionado, String path, Runnable onCloseCallback){
         super(contatos, "Editar Contato", true);
         setLayout(null);
         setResizable(false);
+        contatosFilePath = path;
         
         //Labels
         lbNome = new JLabel("Nome");
@@ -48,22 +57,21 @@ public class Editar extends JDialog{
         tfTelefone = new JFormattedTextField(mascaraTel);
         tfEmail = new JTextField(100);
         tfEndereco = new JTextField(100);
-        String[] categorias = {"Amigo", "Família", "Trabalho"};
-        cbCategoria = new JComboBox(categorias);
-        cbCategoria.setSelectedItem(null);
+        cbCategoria = new JComboBox();
+        if(verificarArquivo("categorias.json")){
+            carregarCategoria();
+        }
         tfNome.setBounds(150,20,200,20);
         tfTelefone.setBounds(150,60,200,20);
         tfEmail.setBounds(150,100,200,20);
         tfEndereco.setBounds(150,140,200,20);
         cbCategoria.setBounds(150,180,200,20);
         
-        
-        //
-        tfNome.setText("");
-        tfTelefone.setText("");
-        tfEmail.setText("");
-        tfEndereco.setText("");
-        cbCategoria.setSelectedItem(null);
+        tfNome.setText(contatoSelecionado.getNome());
+        tfTelefone.setText(contatoSelecionado.getTelefone());
+        tfEmail.setText(contatoSelecionado.getEmail());
+        tfEndereco.setText(contatoSelecionado.getEndereco());
+        cbCategoria.setSelectedItem(contatoSelecionado.getCategoria());
         
         
         //Botões
@@ -95,12 +103,29 @@ public class Editar extends JDialog{
                 JOptionPane.showMessageDialog(rootPane, "Escolha a categoria");
             }
             if(error == false){
-                //salvar();
+                Contato contato = new Contato();
+                contato.setNome(tfNome.getText());
+                contato.setTelefone(tfTelefone.getText());
+                contato.setEmail(tfEmail.getText());
+                contato.setEndereco(tfEndereco.getText());
+                contato.setCategoria(cbCategoria.getSelectedItem().toString());
+                salvarContato(contato,contatoSelecionado);
             }
         });
         
         btCancelar.addActionListener((ActionEvent e) -> {
             this.dispose();
+        });
+        
+        
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if (onCloseCallback != null) {
+                    onCloseCallback.run();
+                }
+                dispose();
+            }
         });
         
         
@@ -121,7 +146,53 @@ public class Editar extends JDialog{
         add(btSalvar);
         add(btCancelar);
 
-        setSize(400,300); 
+        setSize(400,300);
         setLocationRelativeTo(null);
+    }
+    
+    public boolean verificarArquivo(String arquivo) {
+        File file = new File(arquivo);
+        return file.exists();
+    }
+    
+    public void carregarCategoria(){
+        try (BufferedReader reader = new BufferedReader(new FileReader("categorias.json"))) {
+            categorias = gson.fromJson(reader, new TypeToken<ArrayList<Categoria>>(){}.getType());
+            if (categorias == null) {
+                categorias = new ArrayList<>();
+            }
+            cbCategoria.removeAllItems();
+            for (Categoria categoria : categorias) {
+                cbCategoria.addItem(categoria.getNome());
+            }
+            cbCategoria.setSelectedItem(null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void salvarContato(Contato contato, Contato contatoSelecionado) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(contatosFilePath))) {
+            contatos = gson.fromJson(reader, new TypeToken<ArrayList<Contato>>(){}.getType());
+            if (contatos == null) {
+                contatos = new ArrayList<>();
+            }    
+        } catch (IOException e) {
+            System.out.println("Arquivo não encontrado. Criando novo arquivo.");
+        } 
+        
+        for(Contato c:contatos){
+            if(c.getNome().equals(contatoSelecionado.getNome()) && c.getTelefone().equals(contatoSelecionado.getTelefone())){
+                contatos.remove(c);
+            }
+        }
+        
+        contatos.add(contato);
+        try (FileWriter writer = new FileWriter(contatosFilePath)) {
+            gson.toJson(contatos, writer);
+            JOptionPane.showMessageDialog(this, "Contato salvo!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

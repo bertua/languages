@@ -3,10 +3,10 @@ package projetoContatos;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
@@ -20,13 +20,15 @@ public class Contatos extends JFrame{
     private JMenuBar menuBar;
     private JToolBar toolBar;
     private JPopupMenu popupMenu;
-    private DefaultTableModel tableModel;
+    private DefaultTableModel modelo;
     private JTable tabela;
     private JScrollPane scrollPane;
     private JPanel panel;
-    private JComboBox<String> comboBox;
+    private JComboBox<String> cbCategoria;
     private ArrayList<Contato> contatos = new ArrayList<>();
-    private ArrayList<String> categorias = new ArrayList<>();
+    private ArrayList<Categoria> categorias = new ArrayList<>();
+    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private String contatosFilePath = "";
 
     public Contatos(){
         super("Contatos");
@@ -37,7 +39,7 @@ public class Contatos extends JFrame{
         
         //MenuBar
         menuBar = new JMenuBar();
-        menuBar.setBounds(0,0,500,30);
+        menuBar.setBounds(0,0,600,30);
         
         JMenu menuArquivo = new JMenu("Arquivo");
         JMenuItem menuSalvar = new JMenuItem("Salvar");
@@ -64,12 +66,12 @@ public class Contatos extends JFrame{
         menuBar.add(menuArquivo);
         menuBar.add(menuEditar);
         menuBar.add(menuAjuda);
+        tela.add(menuBar);
 
 
-        
         //ToolBar
         toolBar = new JToolBar();
-        toolBar.setBounds(0,30,485,30);
+        toolBar.setBounds(0,30,585,30);
         toolBar.setBorder(null);
         
         JMenuItem toolAdicionar = new JMenuItem("Adicionar");
@@ -95,14 +97,26 @@ public class Contatos extends JFrame{
             excluirContato();
         });
         
+        toolSalvar.addActionListener((ActionEvent e) -> {
+            
+        });
         
-        //Table
+        toolCarregar.addActionListener((ActionEvent e) -> {
+            escolherArquivo();
+            if(contatosFilePath.length() != 0){
+                carregarContato();
+            }
+        });
+        tela.add(toolBar);
+        
+        
+        //Tabela
         String[] colunas = {"Nome","Telefone","E-mail","Endereço","Categoria"};
-        tableModel = new DefaultTableModel(colunas, 0);
-        tabela = new JTable(tableModel);
+        modelo = new DefaultTableModel(colunas, 0);
+        tabela = new JTable(modelo);
         scrollPane = new JScrollPane(tabela);
-        scrollPane.setBounds(0,60,485,300);
-        tableModel.addRow(new Object[]{"João Silva", "(11) 99999-9999", "joao@example.com", "Rua A, 123", "Amigo"});
+        scrollPane.setBounds(0,60,585,400);
+        tela.add(scrollPane);
         
         
         //PopupMenu
@@ -113,11 +127,11 @@ public class Contatos extends JFrame{
         popupMenu.add(popupExcluir);
         
         popupEditar.addActionListener((ActionEvent e) -> {
-            ///////8888888888
+            editarContato();
         });
         
         popupExcluir.addActionListener((ActionEvent e) -> {
-            ///////8888888888
+            excluirContato();
         });
         
         tabela.addMouseListener(new MouseAdapter() {
@@ -138,59 +152,150 @@ public class Contatos extends JFrame{
             }
         });
         
+        
         //Filtro
         panel = new JPanel();
-        panel.setBounds(250,360,250,50);
-        categorias.add("Todos");
-        categorias.add("Amigo");
-        categorias.add("Família");
-        categorias.add("Trabalho");
-        comboBox = new JComboBox(categorias.toArray());
-        comboBox.addActionListener((ActionEvent e) -> {
+        panel.setBounds(350,460,250,50);
+        cbCategoria = new JComboBox();
+        if(verificarArquivo("categorias.json")){
+            carregarCategoria();
+        }
+        
+        cbCategoria.addActionListener((ActionEvent e) -> {
             //filtrar();
         });
         
         panel.add(new JLabel("Filtrar por categoria:"));
-        panel.add(comboBox);
-        
-        
-        //
-        tela.add(scrollPane);
-        tela.add(menuBar);
-        tela.add(toolBar);
+        panel.add(cbCategoria);
         tela.add(panel);
         
-        setSize(500,440); 
+        
+        if(verificarArquivo("path.txt")){
+            contatosFilePath = pegarPath();
+            carregarContato();
+        }
+
+        setSize(600,540); 
         setVisible(true);
         setLocationRelativeTo(null);
     }
     
+    
     public void adicionarContato() {
-        Adicionar adicionar = new Adicionar(this);
+        Adicionar adicionar = new Adicionar(this, this::carregarContato);
         adicionar.setVisible(true);
     }
     
+    
     public void editarContato() {
-        Editar editar = new Editar(this);
-        editar.setVisible(true);
+        int selectedRow = tabela.getSelectedRow();
+        if (selectedRow != -1) {
+            Contato contatoSelecionado = contatos.get(selectedRow);
+            Editar editar = new Editar(this, contatoSelecionado, contatosFilePath, this::carregarContato);
+            editar.setVisible(true);
+        }
     }
+    
     
     public void excluirContato() {
-        
-        JOptionPane.showConfirmDialog(rootPane, "Deseja excluir esse contato?", "Excluir contato", JOptionPane.YES_NO_CANCEL_OPTION);
+        int selectedRow = tabela.getSelectedRow();
+        if (selectedRow != -1) {
+            int confirmar = JOptionPane.showConfirmDialog(rootPane, "Deseja excluir esse contato?", "Excluir contato", JOptionPane.YES_NO_CANCEL_OPTION);
+            if(confirmar == JOptionPane.YES_OPTION){
+                modelo.removeRow(selectedRow);
+                contatos.remove(selectedRow);
+                salvarContato();
+                carregarContato();
+            }
+        }
     }
     
+    
     public void salvarContato() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        try (FileWriter writer = new FileWriter("contatos.json")) {
+        try (FileWriter writer = new FileWriter(contatosFilePath)) {
             gson.toJson(contatos, writer);
-            JOptionPane.showMessageDialog(this, "Contatos salvos!");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
+    
     public void carregarContato() {
-
+        try (BufferedReader reader = new BufferedReader(new FileReader(contatosFilePath))) {
+            contatos = gson.fromJson(reader, new TypeToken<ArrayList<Contato>>(){}.getType());
+            if (contatos == null) {
+                contatos = new ArrayList<>();
+            }
+            modelo.setRowCount(0);
+            for (Contato contato : contatos) {
+               Object[] rowData = new Object[]{
+                contato.getNome(),
+                contato.getTelefone(),
+                contato.getEmail(),
+                contato.getEndereco(),
+                contato.getCategoria()
+               };
+               modelo.addRow(rowData);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    public void carregarCategoria(){
+        try (BufferedReader reader = new BufferedReader(new FileReader("categorias.json"))) {
+            categorias = gson.fromJson(reader, new TypeToken<ArrayList<Categoria>>(){}.getType());
+            if (categorias == null) {
+                categorias = new ArrayList<>();
+            }
+            cbCategoria.removeAllItems();
+            Categoria c = new Categoria();
+            c.setNome("Todos");
+            categorias.add(0, c);
+            for (Categoria categoria : categorias) {
+                cbCategoria.addItem(categoria.getNome());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    public boolean verificarArquivo(String arquivo) {
+        File file = new File(arquivo);
+        return file.exists();
+    }
+    
+    
+    public String pegarPath(){
+        String linha = "";
+        try (BufferedReader reader = new BufferedReader(new FileReader("path.txt"))) {
+            String i;
+            while ((i = reader.readLine()) != null) {
+                linha = i;
+            }
+        } catch (IOException e) {
+            e.printStackTrace(); 
+        }
+        return linha;
+    }
+    
+    
+    public void escolherArquivo(){
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Selecionar arquivo de contatos");
+            int userSelection = fileChooser.showOpenDialog(this);
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File fileToOpen = fileChooser.getSelectedFile();
+                contatosFilePath = fileToOpen.getAbsolutePath();
+                JOptionPane.showMessageDialog(this, "Arquivo selecionado: " + contatosFilePath);
+                
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter("path.txt"))) {
+                writer.write(contatosFilePath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
     }
 }

@@ -87,7 +87,6 @@ public class Categorias extends JDialog{
         try (FileWriter writer = new FileWriter("categorias.json")) {
             gson.toJson(categorias, writer);
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
     
@@ -102,7 +101,6 @@ public class Categorias extends JDialog{
                 modelo.addElement(categoria.getNome());
             }
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
     
@@ -121,7 +119,6 @@ public class Categorias extends JDialog{
             try (FileWriter writer = new FileWriter("categorias.json")) {
                 gson.toJson(categorias, writer);
             } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }

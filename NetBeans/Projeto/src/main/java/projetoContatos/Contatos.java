@@ -29,6 +29,7 @@ public class Contatos extends JFrame{
     private ArrayList<Categoria> categorias = new ArrayList<>();
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private String contatosFilePath = "";
+    
 
     public Contatos(){
         super("Contatos");
@@ -36,16 +37,20 @@ public class Contatos extends JFrame{
         setLayout(null);
         setResizable(false);
         
+        try {
+            UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         
         //MenuBar
         menuBar = new JMenuBar();
         menuBar.setBounds(0,0,600,30);
         
         JMenu menuArquivo = new JMenu("Arquivo");
-        JMenuItem menuSalvar = new JMenuItem("Salvar");
         JMenuItem menuCarregar = new JMenuItem("Carregar");
         JMenuItem menuSair = new JMenuItem("Sair");
-        menuArquivo.add(menuSalvar);
         menuArquivo.add(menuCarregar);
         menuArquivo.add(menuSair);
         
@@ -58,10 +63,35 @@ public class Contatos extends JFrame{
         menuEditar.add(menuExcluir);
 
         JMenu menuAjuda = new JMenu("Ajuda");
-        JMenuItem menuAjuda2 = new JMenuItem("Obter ajuda");
         JMenuItem menuSobre = new JMenuItem("Sobre");
-        menuAjuda.add(menuAjuda2);
         menuAjuda.add(menuSobre);
+        
+        menuCarregar.addActionListener((ActionEvent e) -> {
+            escolherArquivo();
+            if(contatosFilePath.length() != 0){
+                carregarContato();
+            }
+        });
+        
+        menuSair.addActionListener((ActionEvent e) -> {
+            System.exit(0);
+        });
+        
+        menuAdicionar.addActionListener((ActionEvent e) -> {
+            adicionarContato();
+        });
+        
+        menuEditar2.addActionListener((ActionEvent e) -> {
+            editarContato();
+        });
+        
+        menuExcluir.addActionListener((ActionEvent e) -> {
+            excluirContato();
+        });
+        
+        menuSobre.addActionListener((ActionEvent e) -> {
+            JOptionPane.showMessageDialog(rootPane, "appContatos Version 1.0");
+        });
         
         menuBar.add(menuArquivo);
         menuBar.add(menuEditar);
@@ -77,12 +107,10 @@ public class Contatos extends JFrame{
         JMenuItem toolAdicionar = new JMenuItem("Adicionar");
         JMenuItem toolEditar = new JMenuItem("Editar");
         JMenuItem toolExcluir = new JMenuItem("Excluir");
-        JMenuItem toolSalvar = new JMenuItem("Salvar");
         JMenuItem toolCarregar = new JMenuItem("Carregar");
         toolBar.add(toolAdicionar);
         toolBar.add(toolEditar);
         toolBar.add(toolExcluir);
-        toolBar.add(toolSalvar);
         toolBar.add(toolCarregar);
         
         toolAdicionar.addActionListener((ActionEvent e) -> {
@@ -95,10 +123,6 @@ public class Contatos extends JFrame{
         
         toolExcluir.addActionListener((ActionEvent e) -> {
             excluirContato();
-        });
-        
-        toolSalvar.addActionListener((ActionEvent e) -> {
-            
         });
         
         toolCarregar.addActionListener((ActionEvent e) -> {
@@ -162,7 +186,7 @@ public class Contatos extends JFrame{
         }
         
         cbCategoria.addActionListener((ActionEvent e) -> {
-            //filtrar();
+            filtrar();
         });
         
         panel.add(new JLabel("Filtrar por categoria:"));
@@ -182,7 +206,7 @@ public class Contatos extends JFrame{
     
     
     public void adicionarContato() {
-        Adicionar adicionar = new Adicionar(this, this::carregarContato);
+        Adicionar adicionar = new Adicionar(this, this::carregarContato, this::carregarCategoria);
         adicionar.setVisible(true);
     }
     
@@ -215,7 +239,6 @@ public class Contatos extends JFrame{
         try (FileWriter writer = new FileWriter(contatosFilePath)) {
             gson.toJson(contatos, writer);
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
     
@@ -238,7 +261,6 @@ public class Contatos extends JFrame{
                modelo.addRow(rowData);
             }
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
     
@@ -257,7 +279,6 @@ public class Contatos extends JFrame{
                 cbCategoria.addItem(categoria.getNome());
             }
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
     
@@ -276,7 +297,6 @@ public class Contatos extends JFrame{
                 linha = i;
             }
         } catch (IOException e) {
-            e.printStackTrace(); 
         }
         return linha;
     }
@@ -294,8 +314,27 @@ public class Contatos extends JFrame{
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter("path.txt"))) {
                 writer.write(contatosFilePath);
                 } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
+    }
+    
+    private void filtrar() {
+        try {
+            String selecionado = cbCategoria.getSelectedItem().toString();
+            modelo.setRowCount(0);
+
+            for (Contato contato : contatos) {
+                if (contato.getCategoria().equals(selecionado) || selecionado.equals("Todos")) {
+                    modelo.addRow(new Object[]{
+                        contato.getNome(),
+                        contato.getTelefone(),
+                        contato.getEmail(),
+                        contato.getEndereco(),
+                        contato.getCategoria()
+                    });
+                }
+            }
+        } catch (Exception e) {
+        }
     }
 }

@@ -25,7 +25,7 @@ public class Adicionar extends JDialog{
     private String contatosFilePath = "";
     
     
-    public Adicionar(Contatos contatos,Runnable onCloseCallback){
+    public Adicionar(Contatos contatos,Runnable onCloseCallbackCont, Runnable onCloseCallbackCateg){
         super(contatos, "Adicionar Contato", true);
         setLayout(null);
         setResizable(false);
@@ -143,12 +143,15 @@ public class Adicionar extends JDialog{
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                if (onCloseCallback != null) {
-                    onCloseCallback.run();
+                if (onCloseCallbackCont != null && onCloseCallbackCateg != null) {
+                    onCloseCallbackCont.run();
+                    onCloseCallbackCateg.run();
                 }
                 dispose();
             }
+            
         });
+        
         
 
         //
@@ -187,7 +190,6 @@ public class Adicionar extends JDialog{
             gson.toJson(contatos, writer);
             JOptionPane.showMessageDialog(this, "Contato salvo!");
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
     
@@ -204,7 +206,6 @@ public class Adicionar extends JDialog{
             }
             cbCategoria.setSelectedItem(null);
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
     
@@ -217,7 +218,6 @@ public class Adicionar extends JDialog{
                 linha = i;
             }
         } catch (IOException e) {
-            e.printStackTrace(); 
         }
         return linha;
     }
@@ -241,7 +241,6 @@ public class Adicionar extends JDialog{
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter("path.txt"))) {
                     writer.write(contatosFilePath);
                 } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
     }

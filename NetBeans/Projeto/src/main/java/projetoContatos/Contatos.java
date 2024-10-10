@@ -24,6 +24,8 @@ public class Contatos extends JFrame{
     private JTable tabela;
     private JScrollPane scrollPane;
     private JPanel panel;
+    private JTextField txtPesquisa;
+    private JButton btPesquisar;
     private JComboBox<String> cbCategoria;
     private ArrayList<Contato> contatos = new ArrayList<>();
     private ArrayList<Categoria> categorias = new ArrayList<>();
@@ -37,6 +39,7 @@ public class Contatos extends JFrame{
         setLayout(null);
         setResizable(false);
         
+        //LookAndFeel
         try {
             UIManager.setLookAndFeel("com.formdev.flatlaf.FlatLightLaf");
         } catch (Exception e) {
@@ -177,23 +180,35 @@ public class Contatos extends JFrame{
         });
         
         
-        //Filtro
+        //Filtro e pesquisa
         panel = new JPanel();
-        panel.setBounds(350,460,250,50);
+        panel.setBounds(0,460,590,50);
+        
+        txtPesquisa = new JTextField(10);
+        btPesquisar = new JButton("Pesquisar");
+        panel.add(btPesquisar);
+        panel.add(txtPesquisa);
+        panel.add(new JLabel("                                                  "));
+        
         cbCategoria = new JComboBox();
         if(verificarArquivo("categorias.json")){
             carregarCategoria();
         }
+        panel.add(new JLabel("Filtrar por categoria:"));
+        panel.add(cbCategoria);
         
         cbCategoria.addActionListener((ActionEvent e) -> {
             filtrar();
         });
         
-        panel.add(new JLabel("Filtrar por categoria:"));
-        panel.add(cbCategoria);
+        btPesquisar.addActionListener((ActionEvent e) -> {
+            cbCategoria.setSelectedItem(null);
+            pesquisar();
+        });
+        
         tela.add(panel);
         
-        
+        //
         if(verificarArquivo("path.txt")){
             contatosFilePath = pegarPath();
             carregarContato();
@@ -318,6 +333,7 @@ public class Contatos extends JFrame{
             }
     }
     
+    
     private void filtrar() {
         try {
             String selecionado = cbCategoria.getSelectedItem().toString();
@@ -337,4 +353,27 @@ public class Contatos extends JFrame{
         } catch (Exception e) {
         }
     }
+    
+    
+    public void pesquisar() {
+        String pesquisa = txtPesquisa.getText().toLowerCase();
+        modelo.setRowCount(0);
+
+        for (Contato contato : contatos) {
+            if (contato.getNome().toLowerCase().contains(pesquisa) ||
+                contato.getTelefone().toLowerCase().contains(pesquisa) ||
+                contato.getEmail().toLowerCase().contains(pesquisa) ||
+                contato.getEndereco().toLowerCase().contains(pesquisa) ||
+                contato.getCategoria().toLowerCase().contains(pesquisa)) {
+                modelo.addRow(new Object[]{
+                    contato.getNome(),
+                    contato.getTelefone(),
+                    contato.getEmail(),
+                    contato.getEndereco(),
+                    contato.getCategoria()
+                });
+            }
+        }
+    }
+    
 }

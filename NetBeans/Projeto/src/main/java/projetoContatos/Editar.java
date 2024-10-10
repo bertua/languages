@@ -42,6 +42,11 @@ public class Editar extends JDialog{
         lbEmail.setBounds(50,100,120,20);
         lbEndereco.setBounds(50,140,120,20);
         lbCategoria.setBounds(50,180,120,20);
+        add(lbNome);
+        add(lbTelefone);
+        add(lbEmail);
+        add(lbEndereco);
+        add(lbCategoria);
         
         
         //Areas de preenchimento
@@ -66,12 +71,16 @@ public class Editar extends JDialog{
         tfEmail.setBounds(150,100,200,20);
         tfEndereco.setBounds(150,140,200,20);
         cbCategoria.setBounds(150,180,200,20);
-        
         tfNome.setText(contatoSelecionado.getNome());
         tfTelefone.setText(contatoSelecionado.getTelefone());
         tfEmail.setText(contatoSelecionado.getEmail());
         tfEndereco.setText(contatoSelecionado.getEndereco());
         cbCategoria.setSelectedItem(contatoSelecionado.getCategoria());
+        add(tfNome);
+        add(tfTelefone);
+        add(tfEmail);
+        add(tfEndereco);
+        add(cbCategoria);
         
         
         //Botões
@@ -117,7 +126,11 @@ public class Editar extends JDialog{
             this.dispose();
         });
         
+        add(btSalvar);
+        add(btCancelar);
+
         
+        //
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -128,24 +141,6 @@ public class Editar extends JDialog{
             }
         });
         
-        
-        
-        
-        
-        //
-        add(lbNome);
-        add(lbTelefone);
-        add(lbEmail);
-        add(lbEndereco);
-        add(lbCategoria);
-        add(tfNome);
-        add(tfTelefone);
-        add(tfEmail);
-        add(tfEndereco);
-        add(cbCategoria);
-        add(btSalvar);
-        add(btCancelar);
-
         setSize(400,300);
         setLocationRelativeTo(null);
     }
@@ -181,18 +176,19 @@ public class Editar extends JDialog{
             System.out.println("Arquivo não encontrado. Criando novo arquivo.");
         } 
         
+        Contato excluido = new Contato();
         for(Contato c:contatos){
-            if(c.getNome().equals(contatoSelecionado.getNome()) && c.getTelefone().equals(contatoSelecionado.getTelefone())){
-                contatos.remove(c);
+            if(c.getNome().equals(contatoSelecionado.getNome()) && c.getTelefone().equals(contatoSelecionado.getTelefone()) && c.getEmail().equals(contatoSelecionado.getEmail())){
+                excluido = c;
             }
         }
         
+        contatos.remove(excluido);
         contatos.add(contato);
         try (FileWriter writer = new FileWriter(contatosFilePath)) {
             gson.toJson(contatos, writer);
             JOptionPane.showMessageDialog(this, "Contato salvo!");
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }

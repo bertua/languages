@@ -24,6 +24,7 @@ public class Categorias extends JDialog{
         setLayout(null);
         setResizable(false);
         
+        //List
         modelo = new DefaultListModel<>();
         listaCategorias = new JList<>(modelo);
         listaCategorias.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -32,6 +33,9 @@ public class Categorias extends JDialog{
         if(verificarArquivo("categorias.json")){
             carregarCategoria();
         }
+        add(scrollPane);
+        
+        //buttons
         btAdicionar = new JButton("Adicionar");
         btExcluir = new JButton("Excluir");
         btAdicionar.setBounds(8,10,90,20);
@@ -39,6 +43,7 @@ public class Categorias extends JDialog{
 
         tfAdicionar = new JTextField(100);
         tfAdicionar.setBounds(98,10,90,21);
+        add(tfAdicionar);
 
         btAdicionar.addActionListener((ActionEvent e) -> {
             if(!tfAdicionar.getText().isEmpty() && tfAdicionar.getText().length() <= 100){
@@ -54,11 +59,10 @@ public class Categorias extends JDialog{
             excluirCategoria();
         });
 
-        add(scrollPane);
         add(btAdicionar);
-        add(tfAdicionar);
         add(btExcluir);
         
+        //
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -68,10 +72,11 @@ public class Categorias extends JDialog{
                 dispose();
             }
         });
-
+        
         setSize(210,300);
         setLocationRelativeTo(null);
     }
+    
     
     public void salvarCategoria(Categoria categoria) {
         try (BufferedReader reader = new BufferedReader(new FileReader("categorias.json"))) {
@@ -90,6 +95,7 @@ public class Categorias extends JDialog{
         }
     }
     
+    
     public void carregarCategoria(){
         try (BufferedReader reader = new BufferedReader(new FileReader("categorias.json"))) {
             categorias = gson.fromJson(reader, new TypeToken<ArrayList<Categoria>>(){}.getType());
@@ -103,6 +109,7 @@ public class Categorias extends JDialog{
         } catch (IOException e) {
         }
     }
+    
     
     public void excluirCategoria(){
         int selecionado = listaCategorias.getSelectedIndex();
@@ -122,6 +129,7 @@ public class Categorias extends JDialog{
             }
         }
     }
+    
     
     public boolean verificarArquivo(String arquivo) {
         File file = new File(arquivo);

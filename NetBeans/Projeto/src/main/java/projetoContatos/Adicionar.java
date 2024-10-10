@@ -41,6 +41,11 @@ public class Adicionar extends JDialog{
         lbEmail.setBounds(50,100,120,20);
         lbEndereco.setBounds(50,140,120,20);
         lbCategoria.setBounds(50,180,120,20);
+        add(lbNome);
+        add(lbTelefone);
+        add(lbEmail);
+        add(lbEndereco);
+        add(lbCategoria);
         
         
         //Areas de preenchimento
@@ -66,6 +71,11 @@ public class Adicionar extends JDialog{
         tfEmail.setBounds(150,100,200,20);
         tfEndereco.setBounds(150,140,200,20);
         cbCategoria.setBounds(150,180,150,20);
+        add(tfNome);
+        add(tfTelefone);
+        add(tfEmail);
+        add(tfEndereco);
+        add(cbCategoria);
         
         
         //Botões
@@ -139,7 +149,12 @@ public class Adicionar extends JDialog{
             escolherArquivo();
         });
         
+        add(btSalvar);
+        add(btCancelar);
+        add(btAdCategoria);
+        add(btSelecionarArq);
         
+        //
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -152,24 +167,6 @@ public class Adicionar extends JDialog{
             
         });
         
-        
-
-        //
-        add(lbNome);
-        add(lbTelefone);
-        add(lbEmail);
-        add(lbEndereco);
-        add(lbCategoria);
-        add(tfNome);
-        add(tfTelefone);
-        add(tfEmail);
-        add(tfEndereco);
-        add(cbCategoria);
-        add(btSalvar);
-        add(btCancelar);
-        add(btAdCategoria);
-        add(btSelecionarArq);
-
         setSize(400,300);
         setLocationRelativeTo(null);
     }
@@ -230,18 +227,18 @@ public class Adicionar extends JDialog{
     
     
     public void escolherArquivo(){
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setDialogTitle("Selecionar arquivo de contatos");
-            int userSelection = fileChooser.showOpenDialog(this);
-            if (userSelection == JFileChooser.APPROVE_OPTION) {
-                File fileToOpen = fileChooser.getSelectedFile();
-                contatosFilePath = fileToOpen.getAbsolutePath();
-                JOptionPane.showMessageDialog(this, "Arquivo selecionado: " + contatosFilePath);
-                
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter("path.txt"))) {
-                    writer.write(contatosFilePath);
-                } catch (IOException e) {
-                }
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Selecionar arquivo de contatos");
+        int userSelection = fileChooser.showOpenDialog(this);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToOpen = fileChooser.getSelectedFile();
+            contatosFilePath = fileToOpen.getAbsolutePath();
+            JOptionPane.showMessageDialog(this, "Arquivo selecionado: " + contatosFilePath);
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("path.txt"))) {
+                writer.write(contatosFilePath);
+            } catch (IOException e) {
             }
+        }
     }
 }

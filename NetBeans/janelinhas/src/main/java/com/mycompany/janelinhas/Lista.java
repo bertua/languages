@@ -123,13 +123,13 @@ public class Lista extends JFrame{
                         mensagem += rb1.getText();
                     }
                     if(rb2.isSelected()){
-                        mensagem += rb1.getText();
+                        mensagem += rb2.getText();
                     }
                     if(rb3.isSelected()){
-                        mensagem += rb1.getText();
+                        mensagem += rb3.getText();
                     }
                     if(rb4.isSelected()){
-                        mensagem += rb1.getText();
+                        mensagem += rb4.getText();
                     }
                     lbRadio.setText(mensagem);
                 }

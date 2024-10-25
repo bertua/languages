@@ -107,10 +107,13 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Principal p = new Principal();
-        p.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        p.show();
-        this.dispose();
+        if(){
+            Principal p = new Principal();
+            p.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            p.show();
+            this.dispose();
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -155,6 +158,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

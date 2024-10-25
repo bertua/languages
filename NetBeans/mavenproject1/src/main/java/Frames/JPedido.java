@@ -1,29 +1,51 @@
 
 package Frames;
 
-import java.awt.List;
-import java.sql.SQLException;
+
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.ListModel;
-import pedido.Database;
+import javax.swing.table.DefaultTableModel;
+import pedido.BairroCad;
+import pedido.ItensDoPedido;
 import pedido.Pedido;
+import pedido.SaborCad;
+import pedido.TamanhoCad;
 
 
 public class JPedido extends javax.swing.JFrame {
     
+    ArrayList<SaborCad> saborCadList;
+    ArrayList<TamanhoCad> tamanhoCadList;
+    ArrayList<BairroCad> bairroCadList;
+    ArrayList<ItensDoPedido> itensDoPedidoList = new ArrayList<>();
+    double total = 0;
     
-
+    DefaultTableModel model;
     /**
      * Creates new form NewJFrame2
      */
     public JPedido() {
         initComponents();
-        //setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        model = (DefaultTableModel) jTable1.getModel();
         
+        saborCadList = SaborCad.Listar();
+        for(SaborCad i:saborCadList){
+           cbSabor.addItem(i.getSabor() +" x"+i.getPreco());
+        }
+        cbSabor.setSelectedItem(null);
+        
+        tamanhoCadList = TamanhoCad.Listar();
+        for(TamanhoCad i:tamanhoCadList){
+            cbTamanho.addItem(i.getTamanho() + " R$"+ i.getPreco());
+        }
+        cbTamanho.setSelectedItem(null);
+        
+        bairroCadList = BairroCad.Listar();
+        for(BairroCad i:bairroCadList){
+            cbBairro.addItem(i.getBairro() + " R$"+ i.getPreco());
+        }
+        cbBairro.setSelectedItem(null);
+
     }
 
     /**
@@ -38,7 +60,7 @@ public class JPedido extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         cbSabor = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        btEnviar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -47,13 +69,13 @@ public class JPedido extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         tfEndereco = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        tfBairro = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btAdd = new javax.swing.JButton();
+        btRemove = new javax.swing.JButton();
         cbTamanho = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        cbBairro = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Pizzaria");
@@ -74,14 +96,14 @@ public class JPedido extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Enviar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btEnviar.setText("Enviar");
+        btEnviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btEnviarActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Sair");
+        jButton2.setText("Cancelar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -116,17 +138,17 @@ public class JPedido extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Bairro:");
 
-        jButton3.setText("Adicionar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btAdd.setText("Adicionar");
+        btAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btAddActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Remover");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btRemove.setText("Remover");
+        btRemove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btRemoveActionPerformed(evt);
             }
         });
 
@@ -147,6 +169,12 @@ public class JPedido extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        cbBairro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbBairroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -158,17 +186,17 @@ public class JPedido extends javax.swing.JFrame {
                         .addGap(2, 2, 2)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(tfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(24, 24, 24)
                                 .addComponent(tfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel2))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(tfEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(tfEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
+                                    .addComponent(cbBairro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                             .addComponent(jLabel5)
@@ -180,11 +208,11 @@ public class JPedido extends javax.swing.JFrame {
                             .addComponent(cbSabor, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel3)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4))
+                        .addComponent(btRemove))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btEnviar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,8 +242,8 @@ public class JPedido extends javax.swing.JFrame {
                             .addComponent(cbTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3)
-                            .addComponent(jButton4))
+                            .addComponent(btAdd)
+                            .addComponent(btRemove))
                         .addGap(37, 37, 37)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
@@ -225,12 +253,12 @@ public class JPedido extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addComponent(tfEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(tfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
+                            .addComponent(btEnviar)
                             .addComponent(jButton2)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -253,11 +281,13 @@ public class JPedido extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEnviarActionPerformed
         // TODO add your handling code here:
         String cliente = tfCliente.getText();
         String endereco = tfEndereco.getText();
-        String bairro = tfBairro.getText();
+        int bairro = cbBairro.getSelectedIndex();
+        BairroCad bairroS = bairroCadList.get(bairro);
+        total += bairroS.getPreco();
         
         boolean error = false;
         
@@ -271,8 +301,13 @@ public class JPedido extends javax.swing.JFrame {
             error = true;
         }
         
-        if(bairro.length() == 0){
+        if(cbBairro.getSelectedItem().toString().isEmpty()){
             JOptionPane.showMessageDialog(rootPane, "Bairro não preenchido");
+            error = true;
+        }
+        
+        if(model.getRowCount()==0){
+            JOptionPane.showMessageDialog(rootPane, "Item não adicionado");
             error = true;
         }
 
@@ -280,22 +315,28 @@ public class JPedido extends javax.swing.JFrame {
             Pedido pedido = new Pedido();
             pedido.setCliente(cliente);
             pedido.setEndereco(endereco);
-            pedido.setBairro(bairro);
+            pedido.setId_bairro(bairro);
+            pedido.setValor(total);
+            
             int confirmar = JOptionPane.showConfirmDialog(rootPane,"Confirmar?","", JOptionPane.YES_NO_OPTION);
             if(confirmar == JOptionPane.YES_OPTION){
+                
+                pedido.setItens(itensDoPedidoList);
                 pedido.Inserir();
-                JOptionPane.showMessageDialog(rootPane, "Pedido realizado");
+                JOptionPane.showMessageDialog(rootPane, "Pedido realizado: " + pedido.getId_pedido());
+                
                 tfCliente.setText("");
                 tfEndereco.setText("");
-                tfBairro.setText("");
+                cbBairro.setSelectedItem(null);
                 cbSabor.setSelectedItem(null);
                 cbTamanho.setSelectedItem(null);
+                model.setNumRows(0);
+                itensDoPedidoList.clear();
+
             }
             
         }
         
-        
-
         /*try {
             System.out.println(Database.getConnection().getCatalog());
         } catch (SQLException ex) {
@@ -303,7 +344,7 @@ public class JPedido extends javax.swing.JFrame {
         }*/ //para descobrir se conectou
         
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btEnviarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -322,12 +363,12 @@ public class JPedido extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbSaborActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddActionPerformed
         // TODO add your handling code here:
         boolean error = false;
 
-        String sabor = cbSabor.getSelectedItem().toString();
-        String tamanho = cbTamanho.getSelectedItem().toString();
+        int sabor1 = cbSabor.getSelectedIndex();
+        int tamanho1 = cbTamanho.getSelectedIndex();
         
         if(cbSabor.getSelectedItem().toString().isEmpty()){
             JOptionPane.showMessageDialog(rootPane, "Escolha um sabor");
@@ -337,19 +378,46 @@ public class JPedido extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Escolha um tamanho");
             error = true;
         }
-        if(!error){
-            strings.addElement(sabor+" "+tamanho);
-        }
         
-    }//GEN-LAST:event_jButton3ActionPerformed
+        if(!error){
+            
+            SaborCad saborS = saborCadList.get(sabor1);
+            TamanhoCad tamanhoS = tamanhoCadList.get(tamanho1);
+            model.addRow(new Object[]{
+                model.getRowCount()+1,
+                saborS.getSabor(),
+                tamanhoS.getTamanho(),
+                saborS.getPreco()* tamanhoS.getPreco()
+            });
+            ItensDoPedido item = new ItensDoPedido();
+            item.setIdTamanho(tamanhoS.getId_tamanho());
+            item.setIdSabor(saborS.getId_sabor());
+            double valorPizza= saborS.getPreco()* tamanhoS.getPreco();
+            total += valorPizza;
+            item.setValor(valorPizza);
+            
+            itensDoPedidoList.add(item);
+        }
+    }//GEN-LAST:event_btAddActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoveActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow != -1) {
+            itensDoPedidoList.remove(selectedRow);
+            total -= (double) model.getValueAt(selectedRow, 3);
+            model.removeRow(selectedRow);
+        }
+    }//GEN-LAST:event_btRemoveActionPerformed
 
     private void cbTamanhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTamanhoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbTamanhoActionPerformed
+
+    private void cbBairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbBairroActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_cbBairroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -387,14 +455,15 @@ public class JPedido extends javax.swing.JFrame {
         });
     }
 
-    DefaultListModel<String> strings = new DefaultListModel<String>();
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btAdd;
+    private javax.swing.JButton btEnviar;
+    private javax.swing.JButton btRemove;
+    private javax.swing.JComboBox<String> cbBairro;
     private javax.swing.JComboBox<String> cbSabor;
     private javax.swing.JComboBox<String> cbTamanho;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -405,7 +474,6 @@ public class JPedido extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField tfBairro;
     private javax.swing.JTextField tfCliente;
     private javax.swing.JTextField tfEndereco;
     // End of variables declaration//GEN-END:variables

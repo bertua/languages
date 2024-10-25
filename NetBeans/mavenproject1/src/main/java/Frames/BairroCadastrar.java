@@ -7,23 +7,23 @@ package Frames;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import pedido.TamanhoCad;
+import pedido.BairroCad;
 
 /**
  *
- * @author Suporte
+ * @author Aluno
  */
-public class TamanhoCadastrar extends javax.swing.JFrame {
+public class BairroCadastrar extends javax.swing.JFrame {
     DefaultTableModel model;
     /**
-     * Creates new form TamanhoCadastrar
+     * Creates new form BairroCadastrar
      */
-    public TamanhoCadastrar() {
+    public BairroCadastrar() {
         initComponents();
-        ArrayList<TamanhoCad> tamanhoCad = TamanhoCad.Listar();
-        model= (DefaultTableModel) jTable1.getModel();
-        for(TamanhoCad i:tamanhoCad){
-            model.addRow(new Object[]{i.getId_tamanho(),i.getTamanho(),i.getPreco()});
+        ArrayList<BairroCad> bairroCad = BairroCad.Listar();
+        model = (DefaultTableModel) jTable1.getModel();
+        for(BairroCad i:bairroCad){
+            model.addRow(new Object[]{i.getId_bairro(),i.getBairro(),i.getPreco()});
         }
     }
 
@@ -36,22 +36,41 @@ public class TamanhoCadastrar extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        tfTamanho = new javax.swing.JTextField();
-        tfPreco = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        tfBairro = new javax.swing.JTextField();
+        tfPreco = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Cadastrar tamanho");
         setIconImage((new javax.swing.ImageIcon(getClass().getResource("/images/pizza-slice-solid.png"))).getImage());
 
-        jLabel1.setText("Cadastrar novo tamanho:");
+        jLabel4.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel4.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
+        jLabel4.setText("Novo Bairro");
 
-        jLabel3.setText("Preço:");
+        jLabel1.setText("Cadastrar novo bairro:");
+
+        jLabel2.setText("Preço:");
+
+        tfBairro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfBairroActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Bairro", "Preço"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("Enviar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -60,26 +79,6 @@ public class TamanhoCadastrar extends javax.swing.JFrame {
             }
         });
 
-        tfTamanho.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfTamanhoActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel4.setFont(new java.awt.Font("Arial Black", 0, 24)); // NOI18N
-        jLabel4.setText("Novo Tamanho");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Tamanho", "Preço"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -87,19 +86,19 @@ public class TamanhoCadastrar extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
                     .addComponent(jLabel4)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(tfTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(tfPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(tfPreco, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                            .addComponent(tfBairro)))
+                    .addComponent(jButton1))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -107,56 +106,58 @@ public class TamanhoCadastrar extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(tfTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
                             .addComponent(tfPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButton1)
+                        .addGap(0, 179, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tfTamanhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfTamanhoActionPerformed
+    private void tfBairroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfBairroActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tfTamanhoActionPerformed
+    }//GEN-LAST:event_tfBairroActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String tamanho = tfTamanho.getText();
-        String preco = tfPreco.getText();
-        
         boolean error = false;
         
-        if(tamanho.length() == 0){
-            JOptionPane.showMessageDialog(rootPane, "Tamanho não preenchido");
+        String bairro = tfBairro.getText();
+        String preco = tfPreco.getText();
+        
+        
+        if(bairro.length() == 0){
+            JOptionPane.showMessageDialog(rootPane, "Bairro não preenchido");
             error = true;
         }
-
+        
         if(preco.length() == 0){
             JOptionPane.showMessageDialog(rootPane, "Preço não preenchido");
             error = true;
         }
         
         double precoD = Double.parseDouble(preco);
-                
+        
         if(!error){
-            TamanhoCad tamanhoCad = new TamanhoCad();
-            tamanhoCad.setTamanho(tamanho);
-            tamanhoCad.setPreco(precoD);
-            tamanhoCad.Inserir();
+            BairroCad bairroCad = new BairroCad();
+            bairroCad.setBairro(bairro);
+            bairroCad.setPreco(precoD);
+            bairroCad.Inserir();
             
-            model.addRow(new Object[]{tamanhoCad.getId_tamanho(),tamanhoCad.getTamanho(),tamanhoCad.getPreco()});
+            model.addRow(new Object[]{bairroCad.getId_bairro(),bairroCad.getBairro(),bairroCad.getPreco()});
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -177,20 +178,20 @@ public class TamanhoCadastrar extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TamanhoCadastrar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BairroCadastrar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TamanhoCadastrar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BairroCadastrar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TamanhoCadastrar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BairroCadastrar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TamanhoCadastrar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BairroCadastrar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TamanhoCadastrar().setVisible(true);
+                new BairroCadastrar().setVisible(true);
             }
         });
     }
@@ -198,11 +199,11 @@ public class TamanhoCadastrar extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField tfBairro;
     private javax.swing.JTextField tfPreco;
-    private javax.swing.JTextField tfTamanho;
     // End of variables declaration//GEN-END:variables
 }

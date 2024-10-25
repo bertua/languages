@@ -7,7 +7,6 @@ package Frames;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import pedido.SaborCad;
 
 /**
@@ -15,6 +14,7 @@ import pedido.SaborCad;
  * @author Suporte
  */
 public class SaborCadastrar extends javax.swing.JFrame {
+    DefaultTableModel model;
 
     /**
      * Creates new form SaborCadastrar
@@ -22,7 +22,7 @@ public class SaborCadastrar extends javax.swing.JFrame {
     public SaborCadastrar() {
         initComponents();
         ArrayList<SaborCad> saborcad = SaborCad.Listar();
-        DefaultTableModel model= (DefaultTableModel) jTable2.getModel();
+        model = (DefaultTableModel) jTable2.getModel();
         for(SaborCad i:saborcad){
             model.addRow(new Object[]{i.getId_sabor(),i.getSabor(),i.getPreco()});
         }
@@ -63,6 +63,7 @@ public class SaborCadastrar extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastrar sabor");
+        setIconImage((new javax.swing.ImageIcon(getClass().getResource("/images/pizza-slice-solid.png"))).getImage());
 
         jLabel1.setText("Cadastrar novo sabor:");
 
@@ -115,9 +116,7 @@ public class SaborCadastrar extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4)
                     .addComponent(jButton1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,6 +180,8 @@ public class SaborCadastrar extends javax.swing.JFrame {
             saborCad.setSabor(sabor);
             saborCad.setPreco(precoD);
             saborCad.Inserir();
+            
+            model.addRow(new Object[]{saborCad.getId_sabor(),saborCad.getSabor(),saborCad.getPreco()});
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

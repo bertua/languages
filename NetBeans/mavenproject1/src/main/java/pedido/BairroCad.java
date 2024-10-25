@@ -1,4 +1,7 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package pedido;
 
 import java.sql.Connection;
@@ -10,27 +13,30 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @author Aluno
+ */
+public class BairroCad {
 
-public class TamanhoCad {
-
-    private int id_tamanho;
-    private String tamanho;
+    private int Id_bairro;
+    private String bairro;
     private double preco;
     
-    public int getId_tamanho() {
-        return id_tamanho;
+    public int getId_bairro() {
+        return Id_bairro;
     }
 
-    public void setId_tamanho(int id_tamanho) {
-        this.id_tamanho = id_tamanho;
-    }
-    
-    public String getTamanho() {
-        return tamanho;
+    public void setId_bairro(int Id_bairro) {
+        this.Id_bairro = Id_bairro;
     }
 
-    public void setTamanho(String tamanho) {
-        this.tamanho = tamanho;
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
     }
 
     public double getPreco() {
@@ -44,34 +50,34 @@ public class TamanhoCad {
     public void Inserir(){
         Connection conn = Database.getConnection();
         try {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO tamanho (tamanho, preco) VALUES (?,?)",Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, this.getTamanho());
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO bairro (bairro, preco) VALUES (?,?)",Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, this.getBairro());
             stmt.setDouble(2, this.getPreco());
             
             stmt.execute();
             ResultSet result = stmt.getGeneratedKeys();
             result.next();
-            this.setId_tamanho(result.getInt(1));
+            this.setId_bairro(result.getInt(1));
         } catch (SQLException ex) {
             Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public static ArrayList<TamanhoCad> Listar(){
+    public static ArrayList<BairroCad> Listar(){
         Connection conn = Database.getConnection();
-        ArrayList<TamanhoCad> list = new ArrayList<>();
+        ArrayList<BairroCad> list = new ArrayList<>();
         try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM tamanho");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM bairro");
             ResultSet result = stmt.executeQuery();
             while(result.next()){
-                TamanhoCad tamanhoCad = new TamanhoCad();
-                tamanhoCad.setId_tamanho(result.getInt("id_tamanho"));
-                tamanhoCad.setTamanho(result.getString("tamanho"));
-                tamanhoCad.setPreco(result.getDouble("preco"));
-                list.add(tamanhoCad);
+                BairroCad bairroCad = new BairroCad();
+                bairroCad.setId_bairro(result.getInt("id_bairro"));
+                bairroCad.setBairro(result.getString("bairro"));
+                bairroCad.setPreco(result.getDouble("preco"));
+                list.add(bairroCad);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(TamanhoCad.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BairroCad.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
         
@@ -80,7 +86,7 @@ public class TamanhoCad {
     public static void Excluir(int id){
         Connection conn = Database.getConnection();
         try {
-            PreparedStatement stmt = conn.prepareStatement("DELETE FROM tamanho WHERE id_tamanho=?");
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM bairro WHERE id_bairro=?");
             stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException ex) {
@@ -91,14 +97,15 @@ public class TamanhoCad {
     public void Atualizar(){
         Connection conn = Database.getConnection();
         try {
-            PreparedStatement stmt = conn.prepareStatement("UPDATE tamanho SET tamanho = ?, preco = ? WHERE id_tamanho = ?");
-            stmt.setString(1, this.getTamanho());
+            PreparedStatement stmt = conn.prepareStatement("UPDATE bairro SET bairro = ?, preco = ? WHERE id_bairro = ?");
+            stmt.setString(1, this.getBairro());
             stmt.setDouble(2, this.getPreco());
-            stmt.setInt(3, this.getId_tamanho());
+            stmt.setInt(3, this.getId_bairro());
             
             stmt.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(SaborCad.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
 }

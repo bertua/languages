@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,11 +43,14 @@ public class SaborCad {
     public void Inserir(){
         Connection conn = Database.getConnection();
         try {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO sabor (sabor, multiplicador) VALUES (?,?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO sabor (sabor, multiplicador) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, this.getSabor());
             stmt.setString(2, this.getPreco().toString());
             
             stmt.execute();
+            ResultSet result = stmt.getGeneratedKeys();
+            result.next();
+            this.setId_sabor(result.getInt(1));
         } catch (SQLException ex) {
             Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -71,5 +75,31 @@ public class SaborCad {
         return list;
         
     }
+    
+    public static void Excluir(int id){
+        Connection conn = Database.getConnection();
+        try {
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM sabor WHERE id_sabor=?");
+            stmt.setInt(1, id);
+            stmt.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(SaborCad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void Atualizar(){
+        Connection conn = Database.getConnection();
+        try {
+            PreparedStatement stmt = conn.prepareStatement("UPDATE sabor SET sabor = ?, multiplicador = ? WHERE id_sabor = ?");
+            stmt.setString(1, this.getSabor());
+            stmt.setDouble(2, this.getPreco());
+            stmt.setInt(3, this.getId_sabor());
+            
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(SaborCad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 
 }
